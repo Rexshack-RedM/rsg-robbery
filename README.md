@@ -50,9 +50,8 @@ Player-to-player robbery system for RedM / RSG Core.
    This allows **any player** to take items from a **cuffed** target (not just police).
 3. Ensure all dependencies are started before `rsg-robbery`:
    ```cfg
-   ensure ox_lib
-   ensure ox_target
    ensure rsg-core
+   ensure rsg-target
    ensure rsg-inventory
    ensure rsg-robbery
    ```
@@ -64,12 +63,13 @@ Player-to-player robbery system for RedM / RSG Core.
 |----------|----------|-------|
 | `rsg-core` | Yes | Framework |
 | `rsg-inventory` | Yes | Must apply the 1-line fix above |
-| `ox_target` | Yes | Player targeting wheel |
-| `ox_lib` | Yes | Notifications |
+| `rsg-target` | Yes | Player targeting (replaces ox_target) |
 
 ### Configuration
 
-Edit `config.lua`:
+Edit `shared/config.lua`:
+
+Language is set with the `rsg:locale` convar (e.g. `setr rsg:locale de`). Included: en, de, el, es, fr, ja, nl, pl, pt-br, ro.
 
 ```lua
 Config = Config or {}
@@ -96,7 +96,7 @@ Config.AutoUncuffTime = 120000     -- Auto-uncuff after ms (0 = disable)
 ## How It Works
 
 ```
-Player targets victim via ox_target
+Player targets victim via rsg-target
         │
         ▼
 Select "Rob" option
@@ -115,3 +115,8 @@ Robber drags items from target to their own inventory
 ```
 
 The 1-line rsg-inventory change is required because normally only police (job = police/marshal) can take items from a living cuffed player. The change adds `and not targetMeta.ishandcuffed` to the permission check, meaning any player can take items from a cuffed target.
+
+
+---
+
+☕ Support: https://buymeacoffee.com/rexshack

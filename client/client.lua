@@ -1,5 +1,4 @@
 local isHandcuffed = false
-lib.locale()
 
 local animDict = "script_proc@robberies@homestead@lonnies_shack@deception"
 if not HasAnimDictLoaded(animDict) then
@@ -9,7 +8,7 @@ if not HasAnimDictLoaded(animDict) then
     end
 end
 
-exports.ox_target:addGlobalPlayer({
+exports['rsg-target']:addGlobalPlayer({
     {
         name = 'rob_player',
         label = locale('robbery.rob'),
@@ -100,7 +99,7 @@ AddEventHandler('onResourceStop', function(resourceName)
             SetPedCanPlayGestureAnims(PlayerPedId(), true)
             FreezeEntityPosition(PlayerPedId(), false)
         end
-        exports.ox_target:removeGlobalPlayer('rob_player')
-        exports.ox_target:removeGlobalPlayer('uncuff_player')
+        exports['rsg-target']:removeGlobalPlayer('rob_player')
+        exports['rsg-target']:removeGlobalPlayer('uncuff_player')
     end
 end)

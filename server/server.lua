@@ -1,7 +1,6 @@
 local RSGCore = exports['rsg-core']:GetCoreObject()
 local robCooldowns = {}
 local activeRobberies = {}
-lib.locale()
 
 local function cleanupCooldowns()
     local now = GetGameTimer()
@@ -19,35 +18,35 @@ RegisterNetEvent('rsg-robbery:server:robplayer', function(targetId)
     if not Player or not Target then return end
 
     if Player.PlayerData.metadata.ishandcuffed then
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.not_cuffed'), type = 'error', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.not_cuffed'), type = 'error', duration = 5000 })
         return
     end
 
     if robCooldowns[src] and robCooldowns[src] > GetGameTimer() then
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.cooldown'), type = 'error', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.cooldown'), type = 'error', duration = 5000 })
         return
     end
 
     local hasCuffs = Player.Functions.GetItemByName(Config.HandcuffItem)
     if not hasCuffs then
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.need_cuffs'), type = 'error', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.need_cuffs'), type = 'error', duration = 5000 })
         return
     end
 
     local srcPed = GetPlayerPed(src)
     local targetPed = GetPlayerPed(targetId)
     if #(GetEntityCoords(srcPed) - GetEntityCoords(targetPed)) > Config.RobDistance then
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.too_far'), type = 'error', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.too_far'), type = 'error', duration = 5000 })
         return
     end
 
     if Target.PlayerData.metadata.ishandcuffed then
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.already_cuffed'), type = 'error', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.already_cuffed'), type = 'error', duration = 5000 })
         return
     end
 
     if IsPedInAnyVehicle(targetPed) or IsPedInAnyVehicle(srcPed) then
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.in_vehicle'), type = 'error', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.in_vehicle'), type = 'error', duration = 5000 })
         return
     end
 
@@ -75,8 +74,8 @@ RegisterNetEvent('rsg-robbery:server:confirmrobbery', function(robberId)
         Target.Functions.SetMetaData('ishandcuffed', true)
         TriggerClientEvent('rsg-robbery:client:getcuffed', targetSrc)
 
-        TriggerClientEvent('ox_lib:notify', targetSrc, { title = locale('robbery.title'), description = locale('robbery.being_robbed'), type = 'error', duration = 7000 })
-        TriggerClientEvent('ox_lib:notify', robberId, { title = locale('robbery.title'), description = locale('robbery.cuffing'), type = 'success', duration = 3000 })
+        TriggerClientEvent('RSGCore:Client:Notify', targetSrc, { title = locale('robbery.title'), description = locale('robbery.being_robbed'), type = 'error', duration = 7000 })
+        TriggerClientEvent('RSGCore:Client:Notify', robberId, { title = locale('robbery.title'), description = locale('robbery.cuffing'), type = 'success', duration = 3000 })
 
         SetTimeout(1500, function()
             activeRobberies[robberId] = targetSrc
@@ -90,7 +89,7 @@ RegisterNetEvent('rsg-robbery:server:confirmrobbery', function(robberId)
                 if TargetStill and TargetStill.PlayerData.metadata.ishandcuffed then
                     TargetStill.Functions.SetMetaData('ishandcuffed', false)
                     TriggerClientEvent('rsg-robbery:client:uncuffed', targetSrc)
-                    TriggerClientEvent('ox_lib:notify', targetSrc, { title = locale('robbery.title'), description = locale('robbery.broke_free'), type = 'success', duration = 5000 })
+                    TriggerClientEvent('RSGCore:Client:Notify', targetSrc, { title = locale('robbery.title'), description = locale('robbery.broke_free'), type = 'success', duration = 5000 })
                 end
                 activeRobberies[robberId] = nil
             end)
@@ -106,8 +105,8 @@ RegisterNetEvent('rsg-inventory:server:closeInventory', function(inventory)
         if Target and Target.PlayerData.metadata.ishandcuffed then
             Target.Functions.SetMetaData('ishandcuffed', false)
             TriggerClientEvent('rsg-robbery:client:uncuffed', targetSrc)
-            TriggerClientEvent('ox_lib:notify', targetSrc, { title = locale('robbery.title'), description = locale('robbery.uncuffed_you'), type = 'success', duration = 5000 })
-            TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.uncuffed_other'), type = 'success', duration = 5000 })
+            TriggerClientEvent('RSGCore:Client:Notify', targetSrc, { title = locale('robbery.title'), description = locale('robbery.uncuffed_you'), type = 'success', duration = 5000 })
+            TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.uncuffed_other'), type = 'success', duration = 5000 })
         end
         activeRobberies[src] = nil
     end
@@ -120,21 +119,21 @@ RegisterNetEvent('rsg-robbery:server:uncuffplayer', function(targetId)
     if not Player or not Target then return end
 
     if not Target.PlayerData.metadata.ishandcuffed then
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.target_not_cuffed'), type = 'error', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.target_not_cuffed'), type = 'error', duration = 5000 })
         return
     end
 
     local srcPed = GetPlayerPed(src)
     local targetPed = GetPlayerPed(targetId)
     if #(GetEntityCoords(srcPed) - GetEntityCoords(targetPed)) > Config.CuffDistance then
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.too_far'), type = 'error', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.too_far'), type = 'error', duration = 5000 })
         return
     end
 
     Target.Functions.SetMetaData('ishandcuffed', false)
     TriggerClientEvent('rsg-robbery:client:uncuffed', targetId)
-    TriggerClientEvent('ox_lib:notify', targetId, { title = locale('robbery.title'), description = locale('robbery.uncuffed_you'), type = 'success', duration = 5000 })
-    TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.uncuffed_other'), type = 'success', duration = 5000 })
+    TriggerClientEvent('RSGCore:Client:Notify', targetId, { title = locale('robbery.title'), description = locale('robbery.uncuffed_you'), type = 'success', duration = 5000 })
+    TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.uncuffed_other'), type = 'success', duration = 5000 })
 end)
 
 RSGCore.Commands.Add('uncuff', locale('robbery.uncuff_self_help'), {}, false, function(source)
@@ -143,9 +142,9 @@ RSGCore.Commands.Add('uncuff', locale('robbery.uncuff_self_help'), {}, false, fu
     if Player and Player.PlayerData.metadata.ishandcuffed then
         Player.Functions.SetMetaData('ishandcuffed', false)
         TriggerClientEvent('rsg-robbery:client:uncuffed', src)
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.broke_free'), type = 'success', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.broke_free'), type = 'success', duration = 5000 })
     else
-        TriggerClientEvent('ox_lib:notify', src, { title = locale('robbery.title'), description = locale('robbery.not_cuffed'), type = 'error', duration = 5000 })
+        TriggerClientEvent('RSGCore:Client:Notify', src, { title = locale('robbery.title'), description = locale('robbery.not_cuffed'), type = 'error', duration = 5000 })
     end
 end)
 
@@ -157,7 +156,7 @@ AddEventHandler('playerDropped', function()
             if Target and Target.PlayerData.metadata.ishandcuffed then
                 Target.Functions.SetMetaData('ishandcuffed', false)
                 TriggerClientEvent('rsg-robbery:client:uncuffed', targetSrc)
-                TriggerClientEvent('ox_lib:notify', targetSrc, { title = locale('robbery.title'), description = locale('robbery.broke_free'), type = 'success', duration = 5000 })
+                TriggerClientEvent('RSGCore:Client:Notify', targetSrc, { title = locale('robbery.title'), description = locale('robbery.broke_free'), type = 'success', duration = 5000 })
             end
             activeRobberies[robberId] = nil
         elseif targetSrc == src then

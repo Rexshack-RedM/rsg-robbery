@@ -6,10 +6,10 @@ lua54 'yes'
 author 'PHIL & RexShack'
 name 'rsg-robbery'
 description 'Player-to-player robbery system for RSG Framework'
-version '2.0.0'
+version '3.0.0'
 
 shared_scripts {
-    '@ox_lib/init.lua',
+    '@rsg-core/shared/locale.lua',
     'shared/config.lua'
 }
 
@@ -29,6 +29,5 @@ files {
 dependencies {
     'rsg-core',
     'rsg-inventory',
-    'ox_target',
-    'ox_lib'
+    'rsg-target'
 }
