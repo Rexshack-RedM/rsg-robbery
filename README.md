@@ -119,4 +119,4 @@ The 1-line rsg-inventory change is required because normally only police (job = 
 
 ---
 
-☕ Support: https://buymeacoffee.com/rexshack
+☕ Support the Project : https://rexshack.tebex.store/
