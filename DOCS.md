@@ -32,3 +32,57 @@ Set the language with `setr rsg:locale <code>`. Keys live under `robbery.*`.
 
 ## Security
 All checks (distance, cooldown, item, state) are server-side; client target options only request the action.
+
+<!-- BEGIN AUTO-REFERENCE (generated from the code; re-run the generator instead of editing by hand) -->
+
+## Technical reference
+
+Generated from the source of **rsg-robbery 3.0.0**. Names, arguments and defaults below are read straight from the code.
+
+### Dependencies
+
+`rsg-core`, `rsg-inventory`, `rsg-target`
+
+### Configuration
+
+| Option | Default | Notes |
+|---|---|---|
+| `Config.RobDistance` | `2.5` |  |
+| `Config.CuffDistance` | `1.5` |  |
+| `Config.ConsumeHandcuffs` | `false` |  |
+| `Config.RobCooldown` | `30000` |  |
+| `Config.HandcuffItem` | `'handcuffs'` |  |
+| `Config.AutoUncuffTime` | `120000` |  |
+
+### Events
+
+Server events can be fired by any client, so every handler re-validates the player, the arguments and any permission, distance or cooldown on the server. Never add a reward to a handler without those checks.
+
+| Event | Side | Arguments | File |
+|---|---|---|---|
+| `rsg-robbery:client:verifyhandsup` | client | `robberId` | `client/client.lua` |
+| `rsg-robbery:client:getcuffed` | client | `` | `client/client.lua` |
+| `rsg-robbery:client:uncuffed` | client | `` | `client/client.lua` |
+| `rsg-robbery:server:robplayer` | server | `targetId` | `server/server.lua` |
+| `rsg-robbery:server:confirmrobbery` | server | `robberId` | `server/server.lua` |
+| `rsg-inventory:server:closeInventory` | server | `inventory` | `server/server.lua` |
+| `rsg-robbery:server:uncuffplayer` | server | `targetId` | `server/server.lua` |
+
+```lua
+-- from a client script
+TriggerServerEvent('rsg-robbery:server:robplayer', targetId)
+-- from a server script
+TriggerClientEvent('rsg-robbery:client:verifyhandsup', source, robberId)
+```
+
+### Commands
+
+| Command | Notes | File |
+|---|---|---|
+| `/uncuff` | locale('robbery.uncuff_self_help') | `server/server.lua` |
+
+### Locales
+
+Language files in `locales/`: `de`, `el`, `en`, `es`, `fr`, `ja`, `nl`, `pl`, `pt-br`, `ro`. Set the language with `setr rsg:locale "en"`.
+
+<!-- END AUTO-REFERENCE -->
