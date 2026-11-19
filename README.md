@@ -69,7 +69,7 @@ Player-to-player robbery system for RedM / RSG Core.
 
 Edit `shared/config.lua`:
 
-Language is set with the `rsg:locale` convar (e.g. `setr rsg:locale de`). Included: en, de, el, es, fr, ja, nl, pl, pt-br, ro.
+Language is set with the `rsg:locale` convar (e.g. `setr rsg:locale de`). Included: en, de, el, es, fr, ja, nl, pl, pt-br, ro, ru.
 
 ```lua
 Config = Config or {}

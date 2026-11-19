@@ -17,7 +17,7 @@ No ox_lib dependency — locales load from `@rsg-core/shared/locale.lua` and not
 | `client/client.lua` | rsg-target global player options (`rob_player`, `uncuff_player`), cuff animation/effects |
 | `server/server.lua` | Validation (distance, cooldown, handcuffs item, vehicle, cuffed state), cuff metadata, uncuff, auto-uncuff |
 | `server/versionchecker.lua` | Checks GitHub for updates |
-| `locales/*.json` | en, de, el, es, fr, ja, nl, pl, pt-br, ro |
+| `locales/*.json` | en, de, el, es, fr, ja, nl, pl, pt-br, ro, ru |
 
 ## Config
 | Key | Default | Description |
@@ -83,6 +83,6 @@ TriggerClientEvent('rsg-robbery:client:verifyhandsup', source, robberId)
 
 ### Locales
 
-Language files in `locales/`: `de`, `el`, `en`, `es`, `fr`, `ja`, `nl`, `pl`, `pt-br`, `ro`. Set the language with `setr rsg:locale "en"`.
+Language files in `locales/`: `de`, `el`, `en`, `es`, `fr`, `ja`, `nl`, `pl`, `pt-br`, `ro`, `ru`. Set the language with `setr rsg:locale "en"`.
 
 <!-- END AUTO-REFERENCE -->
